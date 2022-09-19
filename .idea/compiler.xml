@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="CleanArchitectureSample.app" target="11" />
+      <module name="CleanArchitectureSample.buildSrc" target="11" />
+      <module name="CleanArchitectureSample.buildSrc.main" target="11" />
+      <module name="CleanArchitectureSample.buildSrc.test" target="11" />
+      <module name="CleanArchitectureSample.remote" target="11" />
+      <module name="CleanArchitectureSample.remote.main" target="11" />
+      <module name="CleanArchitectureSample.remote.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

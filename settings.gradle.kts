@@ -1,3 +1,4 @@
 rootProject.name = "CleanArchitectureSample"
 include (":app")
-include (":remote")
+include(":domain")
+include(":remote")
