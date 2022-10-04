@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
 
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.5.1")
@@ -44,6 +45,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
+    implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofit2Version")
 
     implementation ("com.google.dagger:hilt-android:$hiltVersion")
     kapt ("com.google.dagger:hilt-android-compiler:$hiltVersion")
