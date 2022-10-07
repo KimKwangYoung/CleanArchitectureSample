@@ -1,6 +1,7 @@
 package com.kky.remote.di
 
 import com.kky.remote.BuildConfig
+import com.kky.remote.service.NaverSearchApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
