@@ -8,9 +8,17 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+annotation class AuthInterceptor
+
+@Qualifier
+annotation class LoggingInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -19,6 +27,7 @@ class NaverRetrofitModule {
     @Provides
     fun providesBaseUrl() = NAVER_SEARCH_API_BASE_URL
 
+    @AuthInterceptor
     @Singleton
     @Provides
     fun provideInterceptor(): Interceptor {
@@ -35,11 +44,26 @@ class NaverRetrofitModule {
         return interceptor
     }
 
+    @LoggingInterceptor
     @Singleton
     @Provides
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    fun providesLoggingInterceptor(): Interceptor {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        return interceptor
+    }
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(
+        @AuthInterceptor authInterceptor: Interceptor,
+        @LoggingInterceptor loggingInterceptor: Interceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(authInterceptor)
+            .addInterceptor(loggingInterceptor)
             .build()
     }
 

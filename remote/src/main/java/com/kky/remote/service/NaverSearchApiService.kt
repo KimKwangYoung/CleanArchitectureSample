@@ -1,6 +1,5 @@
 package com.kky.remote.service
 
-import com.kky.remote.dto.BlogPostDTO
 import com.kky.remote.dto.BlogPostResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

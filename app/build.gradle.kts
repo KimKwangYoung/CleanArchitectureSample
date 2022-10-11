@@ -2,6 +2,7 @@ plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.kky.cleanarchitecturesample"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 32
         versionCode = 1
         versionName = "1.0"
@@ -43,9 +44,10 @@ android {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":remote")))
-    implementation(project(mapOf("path" to ":domain")))
+    implementation(project(":remote"))
+    implementation(project( ":domain"))
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("androidx.appcompat:appcompat:1.3.0")
     implementation ("com.google.android.material:material:1.4.0")

@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -13,8 +15,13 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("String", "NAVER_CLIENT_ID", "\"naver_client_id\"")
-        buildConfigField("String", "NAVER_SECRET_KEY", "\"naver_secret_key\"")
+
+        buildConfigField(String::class.java.canonicalName, "NAVER_SECRET_KEY",
+            gradleLocalProperties(rootDir)["naver_secret_key"] as String
+        )
+        buildConfigField(String::class.java.canonicalName, "NAVER_CLIENT_ID",
+            gradleLocalProperties(rootDir)["naver_client_id"] as String
+        )
     }
 
     buildTypes {
@@ -47,6 +54,7 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:$retrofit2Version")
     implementation ("com.squareup.retrofit2:converter-gson:$retrofit2Version")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
     implementation ("com.google.dagger:hilt-android:$hiltVersion")
     kapt ("com.google.dagger:hilt-android-compiler:$hiltVersion")
