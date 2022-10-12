@@ -1,7 +1,7 @@
 package com.kky.remote.dto
 
 import com.google.gson.annotations.SerializedName
-import com.kky.domain.data.BlogPost
+import com.kky.domain.data.Post
 
 data class BlogPostDTO(
     @SerializedName("title")
@@ -14,13 +14,23 @@ data class BlogPostDTO(
     val description: String,
 
     @SerializedName("postdate")
-    val postDate: String
+    val postDate: String,
+
+    @SerializedName("bloggername")
+    val blogger: String
 ) {
-    fun toDomainModel(): BlogPost {
-        return BlogPost(
+    fun toDomainModel(): Post {
+        return Post(
             title = title,
             link = link,
-            postDate = postDate
+            postDate = postDate,
+            content = description,
+            writer = blogger,
+            source = SOURCE
         )
+    }
+
+    companion object {
+        const val SOURCE = "네이버 블로그"
     }
 }
