@@ -4,62 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.kky.cleanarchitecturesample.HtmlConverter"/>
         <variable
             name="data"
             type="com.kky.domain.data.Post" />
     </data>
-
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="10dp"
-        app:cardCornerRadius="10dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:maxLines="1"
-                android:text="@{data.title}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="타이틀" />
-
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:textColor="@color/gray_600"
-                android:layout_marginTop="5dp"
-                android:maxLines="2"
-                android:text="@{data.content}"
-                app:layout_constraintTop_toBottomOf="@id/tv_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="내용입니다." />
-
-            <TextView
-                android:id="@+id/tv_source"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/gray_300"
-                android:textSize="12dp"
-                android:text="@{data.source}"
-                app:layout_constraintTop_toBottomOf="@id/tv_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="네이버 블로그" />
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:text="@{HtmlConverter.INSTANCE.fromHtml(data.title)}"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="타이틀" />
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:textColor="@color/gray_600"
+            android:layout_marginTop="5dp"
+            android:maxLines="2"
+            android:text="@{HtmlConverter.INSTANCE.fromHtml(data.title)}"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="내용입니다." />
+        <TextView
+            android:id="@+id/tv_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/gray_300"
+            android:textSize="12dp"
+            android:text="@{data.source}"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="네이버 블로그" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray_100"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_source"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 </layout>
