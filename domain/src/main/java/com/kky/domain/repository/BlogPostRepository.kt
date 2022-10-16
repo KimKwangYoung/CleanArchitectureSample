@@ -1,7 +1,7 @@
 package com.kky.domain.repository
 
-import com.kky.domain.data.BlogPost
+import com.kky.domain.data.Post
 
 interface BlogPostRepository {
-    suspend fun getBlogPost(keyword: String): List<BlogPost>
+    suspend fun getBlogPost(keyword: String): List<Post>
 }
