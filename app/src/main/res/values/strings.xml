@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">CleanArchitectureSample</string>
+    <string name="app_name">마이키워드</string>
+
+    <string name="home">홈</string>
+    <string name="search">검색</string>
+    <string name="manage">키워드관리</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="input_keyword">검색할 키워드를 입력해주세요!</string>
 </resources>

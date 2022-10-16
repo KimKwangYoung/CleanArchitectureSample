@@ -47,6 +47,12 @@ dependencies {
     implementation(project(":remote"))
     implementation(project( ":domain"))
 
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationComponentVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationComponentVersion")
+    implementation ("androidx.fragment:fragment-ktx:1.5.2")
+    implementation ("com.google.dagger:hilt-android:$hiltVersion")
+    kapt ("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation ("androidx.core:core-ktx:1.7.0")
     implementation ("androidx.appcompat:appcompat:1.3.0")
@@ -56,8 +62,4 @@ dependencies {
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
 
-    implementation ("androidx.fragment:fragment-ktx:1.5.2")
-
-    implementation ("com.google.dagger:hilt-android:$hiltVersion")
-    kapt ("com.google.dagger:hilt-android-compiler:$hiltVersion")
 }
