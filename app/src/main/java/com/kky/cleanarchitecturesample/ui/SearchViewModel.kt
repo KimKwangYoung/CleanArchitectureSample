@@ -11,6 +11,10 @@ import com.kky.cleanarchitecturesample.ui.state.State
 import com.kky.domain.repository.BlogPostRepository
 import com.kky.remote.service.NaverSearchApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,17 +23,17 @@ class SearchViewModel @Inject constructor(
     private val searchPostRepository: BlogPostRepository
 ): ViewModel(), TextView.OnEditorActionListener {
 
-    private val _state:MutableLiveData<State> = MutableLiveData(State.None)
-    val state: LiveData<State>
+    private val _state:MutableStateFlow<State> = MutableStateFlow(State.None)
+    val state: StateFlow<State>
         get() = _state
 
-    private val _event: SingleLiveEvent<SearchEvent> = SingleLiveEvent()
-    val event: LiveData<SearchEvent>
+    private val _event: MutableSharedFlow<SearchEvent> = MutableSharedFlow()
+    val event: SharedFlow<SearchEvent>
         get() = _event
 
     fun search(keyword: String) {
         if (keyword.isBlank()) {
-            _event.value = SearchEvent.EMPTY_KEYWORD
+            viewModelScope.launch { _event.emit(SearchEvent.EMPTY_KEYWORD) }
             return
         }
 
@@ -37,7 +41,7 @@ class SearchViewModel @Inject constructor(
             kotlin.runCatching {
                 searchPostRepository.getBlogPost(keyword)
             }.onSuccess {
-                _state.value = State.Success(it)
+                _state.emit(State.Success(it))
             }.onFailure {
                 _state.value = State.Error(it.message ?: "알 수 없는 에러")
             }
