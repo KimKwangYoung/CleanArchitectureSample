@@ -1,7 +1,7 @@
 package com.kky.remote.dto
 
 import com.google.gson.annotations.SerializedName
-import com.kky.domain.data.Post
+import com.kky.domain.model.Post
 
 data class BlogPostDTO(
     @SerializedName("title")

@@ -1,4 +1,4 @@
-package com.kky.domain.data
+package com.kky.domain.model
 
 data class Post(
     val title: String,

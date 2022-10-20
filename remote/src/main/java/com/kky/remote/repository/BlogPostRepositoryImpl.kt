@@ -1,6 +1,6 @@
 package com.kky.remote.repository
 
-import com.kky.domain.data.Post
+import com.kky.domain.model.Post
 import com.kky.domain.repository.BlogPostRepository
 import com.kky.remote.service.NaverSearchApiService
 import javax.inject.Inject

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kky.cleanarchitecturesample.databinding.ItemPostCardBinding
-import com.kky.domain.data.Post
+import com.kky.domain.model.Post
 
 class PostListAdapter : ListAdapter<Post, PostListAdapter.PostViewHolder>(DiffUtil()) {
 
