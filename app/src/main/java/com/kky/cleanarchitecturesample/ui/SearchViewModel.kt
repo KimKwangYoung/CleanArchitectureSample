@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kky.cleanarchitecturesample.ui.state.State
 import com.kky.domain.repository.BlogPostRepository
+import com.kky.domain.repository.KeywordRepository
 import com.kky.remote.service.NaverSearchApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,7 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchPostRepository: BlogPostRepository
+    private val searchPostRepository: BlogPostRepository,
+    private val keywordRepository: KeywordRepository
 ): ViewModel(), TextView.OnEditorActionListener {
 
     private val _state:MutableStateFlow<State> = MutableStateFlow(State.None)
@@ -42,8 +45,20 @@ class SearchViewModel @Inject constructor(
                 searchPostRepository.getBlogPost(keyword)
             }.onSuccess {
                 _state.emit(State.Success(it))
+                saveKeyword(keyword)
             }.onFailure {
                 _state.value = State.Error(it.message ?: "알 수 없는 에러")
+            }
+        }
+    }
+
+    private fun saveKeyword(value: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val isExist = keywordRepository.search(value) != null
+            if (!isExist) {
+                keywordRepository.insert(value)
+            } else {
+                //TODO: update
             }
         }
     }
