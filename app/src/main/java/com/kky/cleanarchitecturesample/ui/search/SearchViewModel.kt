@@ -40,7 +40,7 @@ class SearchViewModel @Inject constructor(
             kotlin.runCatching {
                 searchPostRepository.getBlogPost(keyword)
             }.onSuccess { posts ->
-                _state.value = _state.value.copy(loadState = LoadState.LOADING, posts = posts)
+                _state.value = _state.value.copy(loadState = LoadState.SUCCESS, posts = posts)
                 saveKeyword(keyword)
             }.onFailure {
                 sendError(it.message ?: "알 수 없는 에러")
