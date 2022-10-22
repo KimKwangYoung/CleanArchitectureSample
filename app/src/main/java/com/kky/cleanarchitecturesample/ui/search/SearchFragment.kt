@@ -1,4 +1,4 @@
-package com.kky.cleanarchitecturesample.ui
+package com.kky.cleanarchitecturesample.ui.search
 
 import android.os.Bundle
 import android.util.Log
@@ -7,11 +7,10 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kky.cleanarchitecturesample.R
-import com.kky.cleanarchitecturesample.base.BaseFragment
+import com.kky.cleanarchitecturesample.ui.base.BaseFragment
 import com.kky.cleanarchitecturesample.databinding.FragmentSearchBinding
-import com.kky.cleanarchitecturesample.ui.state.State
+import com.kky.cleanarchitecturesample.ui.base.LoadState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -34,18 +33,20 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
 
     private fun observe() {
         viewModel.state.onEach {
-            when(it) {
-                is State.Success -> postListAdapter.submitList(it.data)
-                is State.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                is State.None -> Log.d("SearchFragment","none")
+            if (it.loadState == LoadState.SUCCESS) {
+                postListAdapter.submitList(it.posts)
             }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }.launchIn(lifecycleScope)
 
         viewModel.event.onEach {
             when(it) {
                 SearchViewModel.SearchEvent.EMPTY_KEYWORD -> Toast.makeText(requireContext(), R.string.input_keyword, Toast.LENGTH_SHORT).show()
             }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }.launchIn(lifecycleScope)
+
+        viewModel.error.onEach {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
     }
 
     companion object {
