@@ -1,4 +1,4 @@
-package com.kky.cleanarchitecturesample.ui
+package com.kky.cleanarchitecturesample.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

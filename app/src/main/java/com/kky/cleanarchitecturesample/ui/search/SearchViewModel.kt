@@ -1,22 +1,18 @@
-package com.kky.cleanarchitecturesample.ui
+package com.kky.cleanarchitecturesample.ui.search
 
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kky.cleanarchitecturesample.ui.state.State
+import com.kky.cleanarchitecturesample.ui.base.BaseViewModel
+import com.kky.cleanarchitecturesample.ui.base.LoadState
+import com.kky.domain.model.Keyword
 import com.kky.domain.repository.BlogPostRepository
 import com.kky.domain.repository.KeywordRepository
-import com.kky.remote.service.NaverSearchApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,11 +20,11 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchPostRepository: BlogPostRepository,
     private val keywordRepository: KeywordRepository
-): ViewModel(), TextView.OnEditorActionListener {
+): BaseViewModel(), TextView.OnEditorActionListener {
 
-    private val _state:MutableStateFlow<State> = MutableStateFlow(State.None)
-    val state: StateFlow<State>
-        get() = _state
+    private val _state:MutableStateFlow<SearchUiState> = MutableStateFlow(SearchUiState())
+    val state: StateFlow<SearchUiState>
+        get() = _state.asStateFlow()
 
     private val _event: MutableSharedFlow<SearchEvent> = MutableSharedFlow()
     val event: SharedFlow<SearchEvent>
@@ -43,22 +39,22 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 searchPostRepository.getBlogPost(keyword)
-            }.onSuccess {
-                _state.emit(State.Success(it))
+            }.onSuccess { posts ->
+                _state.value = _state.value.copy(loadState = LoadState.LOADING, posts = posts)
                 saveKeyword(keyword)
             }.onFailure {
-                _state.value = State.Error(it.message ?: "알 수 없는 에러")
+                sendError(it.message ?: "알 수 없는 에러")
             }
         }
     }
 
     private fun saveKeyword(value: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val isExist = keywordRepository.search(value) != null
-            if (!isExist) {
+            val keyword: Keyword? = keywordRepository.search(value)
+            keyword?.let {
+                keywordRepository.addCount(it)
+            } ?: kotlin.run {
                 keywordRepository.insert(value)
-            } else {
-                //TODO: update
             }
         }
     }

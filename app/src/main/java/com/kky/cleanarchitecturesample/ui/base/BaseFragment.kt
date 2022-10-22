@@ -1,4 +1,4 @@
-package com.kky.cleanarchitecturesample.base
+package com.kky.cleanarchitecturesample.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
