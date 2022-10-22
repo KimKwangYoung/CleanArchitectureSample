@@ -23,7 +23,8 @@ internal class KeywordRepositoryImpl @Inject constructor(
 
     override fun getAll(): Flow<List<Keyword>> {
         return keywordDao.getAll()
-            .map { it.map { history -> Keyword(
+            .map { it.map { history ->
+                Keyword(
                 id = history.id,
                 value = history.value,
                 count = history.count
@@ -41,5 +42,13 @@ internal class KeywordRepositoryImpl @Inject constructor(
         }
 
         return keyword
+    }
+
+    override suspend fun addCount(keyword: Keyword) {
+        keywordDao.addCount(KeywordHistory(
+            keyword.id,
+            keyword.value,
+            keyword.count + 1
+        ))
     }
 }
