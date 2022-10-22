@@ -1,15 +1,16 @@
-package com.kky.cleanarchitecturesample.ui
+package com.kky.cleanarchitecturesample.ui.home
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kky.cleanarchitecturesample.R
-import com.kky.cleanarchitecturesample.base.BaseFragment
+import com.kky.cleanarchitecturesample.ui.base.BaseFragment
 import com.kky.cleanarchitecturesample.databinding.FragmentHomeBinding
-import com.kky.cleanarchitecturesample.ui.state.State
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
@@ -26,19 +27,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     private fun observe() {
-        viewModel.state.observe(viewLifecycleOwner) {
-            when(it) {
-                is State.Success -> {}
-                is State.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                State.None -> {/* blank */}
-            }
-        }
-
-        viewModel.event.observe(viewLifecycleOwner) {
+        viewModel.event.onEach {
             when(it) {
                 HomeViewModel.HomeEvent.NAVIGATE_SEARCH -> navigateToSearch()
             }
-        }
+        }.launchIn(lifecycleScope)
     }
 
     private fun navigateToSearch() {
