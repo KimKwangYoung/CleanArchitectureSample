@@ -1,7 +1,5 @@
 package com.kky.cleanarchitecturesample.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kky.cleanarchitecturesample.ui.base.BaseViewModel
 import com.kky.cleanarchitecturesample.ui.base.LoadState
@@ -24,9 +22,15 @@ class HomeViewModel @Inject constructor(
     val event: SharedFlow<HomeEvent>
         get() = _event
 
-    fun observeHistory() {
-        viewModelScope.launch {
+    init {
+        observeHistory()
+    }
 
+    private fun observeHistory() {
+        viewModelScope.launch {
+            keywordRepository.getAll().collect {
+                _state.value = _state.value.copy(loadState = LoadState.SUCCESS, histories = it)
+            }
         }
     }
 

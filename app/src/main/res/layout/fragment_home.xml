@@ -6,13 +6,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.kky.cleanarchitecturesample.ui.HomeViewModel"/>
+            type="com.kky.cleanarchitecturesample.ui.home.HomeViewModel"/>
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.HomeFragment">
+        tools:context=".ui.home.HomeFragment">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
