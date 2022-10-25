@@ -11,6 +11,7 @@ buildscript {
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.0.0")
         classpath("de.mannodermaus.gradle.plugins:android-junit5:1.7.1.1")
         classpath ("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
