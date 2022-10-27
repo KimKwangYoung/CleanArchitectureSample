@@ -11,11 +11,17 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_fragment_to_search_fragment"
-            app:destination="@id/search_fragment" />
+            app:destination="@id/search_fragment"/>
     </fragment>
     <fragment
         android:id="@+id/search_fragment"
         android:name="com.kky.cleanarchitecturesample.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+
+        <argument android:name="keyword"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
 </navigation>
