@@ -6,11 +6,13 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.kky.cleanarchitecturesample.R
 import com.kky.cleanarchitecturesample.SampleApplication
 import com.kky.cleanarchitecturesample.ui.base.BaseFragment
 import com.kky.cleanarchitecturesample.databinding.FragmentHomeBinding
 import com.kky.cleanarchitecturesample.ui.base.LoadState
+import com.kky.cleanarchitecturesample.ui.search.SearchFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,7 +22,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val keywordAdapter = KeywordRankListAdapter()
+    private val keywordAdapter = KeywordRankListAdapter { navigateSearch(it) }
 
     override fun bind(): FragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
 
@@ -48,7 +50,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     private fun navigateToSearch() {
-        findNavController().navigate(R.id.action_home_fragment_to_search_fragment)
+        val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment(null)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateSearch(keyword: String) {
+        val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment(keyword)
+        findNavController().navigate(action)
     }
 
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.kky.cleanarchitecturesample.R
 import com.kky.cleanarchitecturesample.ui.base.BaseFragment
 import com.kky.cleanarchitecturesample.databinding.FragmentSearchBinding
@@ -29,6 +30,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
         binding.recyclerView.adapter = postListAdapter
 
         observe()
+
+        val args by navArgs<SearchFragmentArgs>()
+        args.keyword?.let {
+            binding.etKeyword.setText(it)
+            viewModel.search(it)
+        }
     }
 
     private fun observe() {
