@@ -3,7 +3,6 @@ package com.kky.cleanarchitecturesample.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.kky.cleanarchitecturesample.base.BaseFragment
 import com.kky.cleanarchitecturesample.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
