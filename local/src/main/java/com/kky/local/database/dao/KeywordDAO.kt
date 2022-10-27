@@ -3,6 +3,7 @@ package com.kky.local.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.kky.local.database.entity.KeywordHistory
 import kotlinx.coroutines.flow.Flow
 
@@ -16,4 +17,7 @@ internal interface KeywordDAO {
 
     @Query("SELECT * FROM keyword WHERE :value = value")
     fun search(value: String): KeywordHistory?
+
+    @Update
+    fun addCount(keywordHistory: KeywordHistory)
 }
