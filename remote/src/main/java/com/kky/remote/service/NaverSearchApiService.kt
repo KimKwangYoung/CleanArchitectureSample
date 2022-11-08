@@ -8,6 +8,8 @@ interface NaverSearchApiService {
     /* 블로그 검색 결과 */
     @GET("/v1/search/blog.json")
     suspend fun searchBlogPost(
+        @Query("start") page: Int,
+        @Query("display") count: Int,
         @Query("query") query: String
     ): BlogPostResponse
 }

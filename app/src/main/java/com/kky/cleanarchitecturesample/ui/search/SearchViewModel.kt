@@ -3,8 +3,8 @@ package com.kky.cleanarchitecturesample.ui.search
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.kky.cleanarchitecturesample.ui.base.BaseViewModel
 import com.kky.cleanarchitecturesample.ui.base.LoadState
 import com.kky.domain.model.Keyword
@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
 
         viewModelScope.launch {
             kotlin.runCatching {
-                searchPostRepository.getBlogPost(keyword)
+                searchPostRepository.getBlogPost(keyword).cachedIn(viewModelScope)
             }.onSuccess { posts ->
                 _state.value = _state.value.copy(loadState = LoadState.SUCCESS, posts = posts)
                 saveKeyword(keyword)

@@ -8,10 +8,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.kky.cleanarchitecturesample.R
+import com.kky.cleanarchitecturesample.SampleApplication
 import com.kky.cleanarchitecturesample.ui.base.BaseFragment
 import com.kky.cleanarchitecturesample.databinding.FragmentSearchBinding
 import com.kky.cleanarchitecturesample.ui.base.LoadState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -41,7 +43,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>() {
     private fun observe() {
         viewModel.state.onEach {
             if (it.loadState == LoadState.SUCCESS) {
-                postListAdapter.submitList(it.posts)
+                it.posts.collectLatest { pagingData ->
+                    postListAdapter.submitData(pagingData)
+                    Log.d(SampleApplication.TAG, "loadedDataCount ===> ${postListAdapter.itemCount}")
+                }
             }
         }.launchIn(lifecycleScope)
 

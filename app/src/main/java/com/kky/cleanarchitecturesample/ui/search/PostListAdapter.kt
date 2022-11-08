@@ -2,12 +2,13 @@ package com.kky.cleanarchitecturesample.ui.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kky.cleanarchitecturesample.databinding.ItemPostCardBinding
 import com.kky.domain.model.Post
 
-class PostListAdapter : ListAdapter<Post, PostListAdapter.PostViewHolder>(DiffUtil()) {
+class PostListAdapter : PagingDataAdapter<Post, PostListAdapter.PostViewHolder>(DiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder =
         PostViewHolder(
@@ -19,7 +20,7 @@ class PostListAdapter : ListAdapter<Post, PostListAdapter.PostViewHolder>(DiffUt
         )
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 
 
